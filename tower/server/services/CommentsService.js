@@ -12,6 +12,19 @@ class CommentsService {
     await comment.populate('creator')
     return comment
   }
+
+  async deleteComment(commentId, creatorId) {
+    const oldComment = await dbContext.Comment.findById(commentId)
+    // return creatorId + ' == ' + oldComment.creatorId
+    // Cannot access properties of async object until AFTER it's aliased.
+    if (creatorId == oldComment.creatorId) {
+      let comment = await dbContext.Comment.findByIdAndRemove(commentId)
+      return comment
+    } else {
+      throw new BadRequest('Das Nacho Comment!')
+    }
+
+  }
 }
 
 export const commentsService = new CommentsService()
