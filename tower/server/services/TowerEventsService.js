@@ -17,6 +17,11 @@ class TowerEventsService {
     return towerEvent
   }
 
+  async getById(id) {
+    let towerEvent = await dbContext.TowerEvents.findById(id)
+    return towerEvent
+  }
+
   async create(body) {
     let towerEvent = await dbContext.TowerEvents.create(body)
     // populate creator here
