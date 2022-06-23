@@ -11,7 +11,7 @@ export const TowerEventSchema = new Schema({
   location: {type: String, required: true},
   capacity: {type: Number, required: true},
   startDate: {type: Date, required: true},
-  isCancelled: {type: Boolean, default: false},
+  isCanceled: {type: Boolean, default: false},
   // type, enum string
   type: {type: String, enum: ['concert', 'convention', 'sport', 'digital']}
   // virtuals: timestamps: true autogens timestamps, and virtuals: true allows use of virtuals - not creates a specific virtual

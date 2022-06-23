@@ -15,6 +15,7 @@ export class TowerEventsController extends BaseController {
       .get('', this.getAll)
       .get('/:id', this.getById)
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .put('/:id', this.updateById)
       .post('', this.create)
   }
 
@@ -41,6 +42,16 @@ export class TowerEventsController extends BaseController {
   async getById(req, res, next) {
     try {
       const towerEvent = await towerEventsService.getById(req.params.id)
+      return res.send(towerEvent)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async updateById(req, res, next) {
+    try {
+      req.body.creatorId = req.userInfo.id
+      const towerEvent = await towerEventsService.updateById(req.params.id, req.body)
       return res.send(towerEvent)
     } catch (error) {
       next(error)
