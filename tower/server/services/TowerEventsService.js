@@ -49,6 +49,22 @@ class TowerEventsService {
     // populate creator here
     return towerEvent
   }
+
+  async cancel(id, update) {
+    let original = await dbContext.TowerEvents.findById(id)
+    if (original.creatorId.toString() != update.creatorId) {
+      throw new BadRequest('Das Nacho Event!')
+    }
+
+    // Need to make sure you can't double-cancel
+    if (original.isCanceled === true) {
+      throw new BadRequest("Can't cancel an already canceled event.")
+    }
+    
+    original.isCanceled = update.isCanceled
+    original.save()
+    return original
+  }
 }
 
 export const towerEventsService = new TowerEventsService()

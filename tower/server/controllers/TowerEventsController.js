@@ -17,6 +17,7 @@ export class TowerEventsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .put('/:id', this.updateById)
       .post('', this.create)
+      .delete('/:id', this.cancel)
   }
 
   // mobs code
@@ -62,6 +63,19 @@ export class TowerEventsController extends BaseController {
     try {
       req.body.creatorId = req.userInfo.id
       const towerEvent = await towerEventsService.create(req.body)
+      return res.send(towerEvent)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async cancel(req, res, next) {
+    try {
+      let update = {
+        creatorId: req.userInfo.id,
+        isCanceled: true
+      }
+      const towerEvent = await towerEventsService.cancel(req.params.id, update)
       return res.send(towerEvent)
     } catch (error) {
       next(error)
