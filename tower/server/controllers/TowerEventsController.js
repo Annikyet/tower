@@ -20,17 +20,6 @@ export class TowerEventsController extends BaseController {
       .delete('/:id', this.cancel)
   }
 
-  // mobs code
-  // async create(req, res, next) {
-  //   try {
-  //     req.body.creatorId = req.userInfo.id
-  //     const project = await projectsService.create(req.body)
-  //     return res.send(project)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
-
   async getAll(req, res, next) {
     try {
       const towerEvent = await towerEventsService.getAll()

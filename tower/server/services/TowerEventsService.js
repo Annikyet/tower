@@ -2,14 +2,6 @@ import { dbContext } from "../db/DbContext"
 import { BadRequest } from "../utils/Errors"
 
 
-// Mobs code
-// async create(body) {
-//   let project = await dbContext.Projects.create(body)
-//   await project.populate('creator', 'name picture')
-//   return project
-// }
-
-
 class TowerEventsService {
 
   async getAll() {
@@ -64,6 +56,21 @@ class TowerEventsService {
     original.isCanceled = update.isCanceled
     original.save()
     return original
+  }
+
+  async getCapacityById(id) {
+    return await dbContext.TowerEvents.findById(id)["capacity"]
+  }
+
+  async decrementCapacityById(id) {
+    let original = await dbContext.TowerEvents.findById(id)
+    if (original.capacity <= 0) {
+      throw new BadRequest("Too Slow! All tickets sold.")
+    } else {
+      original.capacity--
+      await dbContext.TowerEvents.findByIdAndUpdate(id, original)
+      return original
+    }
   }
 }
 
