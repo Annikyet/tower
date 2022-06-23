@@ -17,6 +17,11 @@ class TicketsService {
     return tickets
   }
 
+  async getEventTickets(id) {
+    let tickets = await dbContext.Ticket.find({eventId: id}).populate('account')
+    return tickets
+  }
+
   // async updateById(id, update) {
   //   let original = await dbContext.TowerEvents.findById(id)
   //   if (original.creatorId.toString() != update.creatorId) {
@@ -43,6 +48,15 @@ class TicketsService {
     await towerEventsService.decrementCapacityById(body.eventId)
     let ticket = await dbContext.Ticket.create(body)
     return ticket.populate('account')
+  }
+
+  async delete(ticketId, accountId) {
+    let original = await dbContext.Ticket.findById(ticketId)
+    if (original.accountId.toString() == accountId) {
+      const ticket = await dbContext.Ticket.findByIdAndRemove(ticketId)
+      towerEventsService.incrementCapacityById(original.eventId)
+      return ticket
+    }
   }
 
 //   async cancel(id, update) {

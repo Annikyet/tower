@@ -16,7 +16,7 @@ export class TicketsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       // .put('/:id', this.updateById)
       .post('', this.create)
-      // .delete('/:id', this.cancel)
+      .delete('/:id', this.delete)
   }
 
   // async getAll(req, res, next) {
@@ -55,6 +55,15 @@ export class TicketsController extends BaseController {
       }
       const ticket = await ticketsService.create(body)
       return res.send(ticket)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      const ticket = await ticketsService.delete(req.params.id, req.userInfo.id)
+      return res.send('meow')
     } catch (error) {
       next(error)
     }

@@ -72,6 +72,13 @@ class TowerEventsService {
       return original
     }
   }
+
+  async incrementCapacityById(id) {
+    let original = await dbContext.TowerEvents.findById(id)
+    original.capacity++
+    await dbContext.TowerEvents.findByIdAndUpdate(id, original)
+    return original
+  }
 }
 
 export const towerEventsService = new TowerEventsService()
