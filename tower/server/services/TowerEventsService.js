@@ -11,6 +11,12 @@ import { BadRequest } from "../utils/Errors"
 
 
 class TowerEventsService {
+
+  async getAll() {
+    let towerEvent = await dbContext.TowerEvents.find()
+    return towerEvent
+  }
+
   async create(body) {
     let towerEvent = await dbContext.TowerEvents.create(body)
     // populate creator here
