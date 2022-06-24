@@ -8,7 +8,7 @@ class EventsService {
 
   async getAll() {
     const res = await api.get('api/events')
-    logger.log('getAll(events): ' + res.data)
+    // logger.log('getAll(events): ' + res.data)
     AppState.events = res.data
   }
 }

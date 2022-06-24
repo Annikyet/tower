@@ -12,7 +12,7 @@ const routes = [
     component: loadPage('HomePage')
   },
   {
-    path: '/event',
+    path: '/event/:id',
     name: 'Event',
     component: loadPage('EventPage')
   },
@@ -30,3 +30,12 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+// <!-- in routes -->
+//         <!-- {
+//     path: '/project/:id',
+//     name: 'ProjectDetails',
+//     component: loadPage('ProjectPage'),
+//     beforeEnter: authSettled
+//   }, -->
+//   <!-- passes page to loadPage -->
