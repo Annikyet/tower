@@ -3,32 +3,30 @@
     <!-- <h1>This is the event page</h1>
     <h2>ID: {{ eventId }}</h2> -->
     <div class="event-splash">
-      <img src="https://thiscatdoesnotexist.com" alt="" class="img-under">
+      <img :src="event.coverImg" alt="" class="img-under">
       <div class="over-img blur-panel d-flex">
-        <img src="https://thiscatdoesnotexist.com" alt="" class="event-splash-img">
+        <img :src="event.coverImg" alt="" class="event-splash-img">
         <div class="d-flex flex-column justify-content-between">
 
           <div class="d-flex flex-column">
           <div class="d-flex justify-content-between w-100">
 
               <div class="d-flex flex-column">
-                <h4 class="component-title">name</h4>
-              <h5 class="event-card-attr">(location) ID: {{ eventId }}</h5>
+                <h4 class="component-title">{{event.name}}</h4>
+              <h5 class="event-card-attr">{{event.location}}</h5>
 
             </div>
             <div class="d-flex flex-column">
-              <h5 class="event-card-attr">startDate</h5>
-              <h5 class="event-card-attr">startDate</h5>
+              <h5 class="event-card-attr">{{event.startDate}}</h5>
+              <h5 class="event-card-attr">{{event.startDate}}</h5>
 
             </div>
           </div>
-          <p class="thin-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, quas. Velit facilis, voluptatem dolorum
-            maxime,
-            vero, excepturi laborum ut iste adipisci ex quidem praesentium?</p>
+          <p class="thin-text small-text">{{event.description}}</p>
             </div>
           <div class="d-flex justify-content-between">
             
-            <h5 class="text-right"><span class="bold-text">9</span><span class="thin-text"> tickets
+            <h5 class="text-right"><span class="bold-text">{{event.capacity}}</span><span class="thin-text"> tickets
               left.</span></h5>
             <button class="btn btn-primary">Reserve Ticket</button>
           </div>
@@ -43,21 +41,24 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { watchEffect } from 'vue'
 import Pop from '../utils/Pop'
+import { eventsService } from "../services/EventsService"
+import { AppState } from '../AppState'
 export default {
   name: 'EventPage',
   setup() {
     const route = useRoute()
-    // watchEffect(async () => {
-    //   try {
-    //     if (route.name == 'Event') {
-    //       // get event details
-    //     }
-    //   } catch(error) {
-    //     Pop.error(error)
-    //   }
-    // })
+    watchEffect(async () => {
+      try {
+        if (route.name == 'Event') {
+          // get event details
+          eventsService.getById(route.params.id)
+        }
+      } catch(error) {
+        Pop.error(error)
+      }
+    })
     return {
-      eventId: computed(() => route.params.id)
+      event: computed(() => AppState.currentEvent)
     }
   }
 }
@@ -101,9 +102,9 @@ export default {
   color: var(--color-2);
   text-shadow: 0px 0px 4px #000000d0;
   font-size: 1.4em;
-  background-color: #ffffff40;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background-color: #00000060;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   align-self: flex-end;
   width: 100%;
   margin: 0px;
@@ -114,18 +115,15 @@ export default {
   padding-bottom: calc(2 * var(--page-margins));
 }
 
-.event-splash-container {
-  height: calc(var(--event-splash-height) - (4 * var(--page-margins)));
-  width: 100%;
-  background-color: darkblue;
-}
-
 .event-splash-img {
   width: calc(var(--event-splash-height) - (4 * var(--page-margins)));
   // margin-left: var(--page-margins);
   margin-right: var(--page-margins);
   // margin-top: calc(2 * var(--page-margins));
   // margin-bottom: calc(2 * var(--page-margins));
+    // this doesn't work, hard coding it is
+  // height: calc(var(--page-margins - (2 * var(--page-margins))));
+  height: 46vh;
 }
 
 .event-card-attr {
@@ -135,7 +133,7 @@ export default {
 }
 
 .component-title {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 500;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
@@ -153,7 +151,13 @@ export default {
 .thin-text {
   font-weight: lighter;
   font-size: 20px;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  text-shadow: 0px 0px 6px #000000;
+  color: #ffffff;
   ;
+}
+
+.small-text {
+  font-size: 16px;
 }
 </style>

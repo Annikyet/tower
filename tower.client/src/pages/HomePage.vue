@@ -1,16 +1,17 @@
 <template>
   <div class="splash-banner">
-    <a href="https://unsplash.com/photos/SQxcZIIZHV8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">
+    <a
+      href="https://unsplash.com/photos/SQxcZIIZHV8?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink">
       <img src="../assets/img/splash.jpeg" alt="Tower" class="img-under">
     </a>
     <!-- put over-img text here -->
-      <p class="text-over-img">
-        <ul>
-          <li>mewo meow meow</li>
-          <li>mewo meow meow</li>
-          <li>mewo meow meow</li>
-        </ul>
-      </p>
+    <p class="text-over-img">
+    <ul>
+      <li>mewo meow meow</li>
+      <li>mewo meow meow</li>
+      <li>mewo meow meow</li>
+    </ul>
+    </p>
   </div>
   <FilterBar />
   <div class="event-grid">
@@ -23,39 +24,39 @@
 <script>
 import { computed, onMounted } from '@vue/runtime-core'
 import { AppState } from '../AppState'
-import EventCard from '../components/EventCard.vue'
 import Pop from '../utils/Pop'
 import { eventsService } from '../services/EventsService'
 
 export default {
-    name: "Home",
-    setup() {
-      onMounted(async () => {
-        try {
-          // call the events service
-          eventsService.getAll()
-        } catch (error) {
-          Pop.error(error)
-        }
-      })
-      return {
-          events: computed(() => AppState.events)
-      };
-    },
-    components: { EventCard }
+  name: "Home",
+  setup() {
+    onMounted(async () => {
+      try {
+        // call the events service
+        await eventsService.getAll()
+      } catch (error) {
+        Pop.error(error)
+      }
+    })
+    return {
+      events: computed(() => AppState.events)
+    };
+  }
 }
 </script>
 
 <style scoped lang="scss">
-.home{
+.home {
   display: grid;
   height: 80vh;
   place-content: center;
   text-align: center;
   user-select: none;
-  .home-card{
+
+  .home-card {
     width: 50vw;
-    > img{
+
+    >img {
       height: 200px;
       max-width: 200px;
       width: 100%;
@@ -74,6 +75,7 @@ export default {
   // object-fit: cover;
   position: relative;
 }
+
 // text over img styling
 .img-under {
   position: absolute;
