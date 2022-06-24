@@ -29,7 +29,8 @@
             
             <h5 class="text-right"><span class="bold-text">{{event.capacity}}</span><span class="thin-text"> tickets
               left.</span></h5>
-            <button class="btn btn-primary">Reserve Ticket</button>
+            <button v-show="!myTicket" class="btn btn-primary" @click="createTicket">Reserve Ticket</button>
+            <button v-show="myTicket" class="btn btn-secondary" @click="removeTicket">Relinquish Ticket</button>
           </div>
         </div>
       </div>
@@ -68,7 +69,22 @@ export default {
     })
     return {
       event: computed(() => AppState.currentEvent),
-      tickets: computed(() => AppState.currentEventTickets)
+      tickets: computed(() => AppState.currentEventTickets),
+      myTicket: computed(() => AppState.currentEventTickets.find((t) => t.accountId == AppState.account._id)),
+      async createTicket() {
+        try {
+          ticketsService.createTicket(route.params.id)
+        } catch (error) {
+          Pop.error(error)
+        }
+      },
+      async removeTicket() {
+        try {
+          ticketsService.removeTicket(this.myTicket)
+        } catch (error) {
+          Pop.error(error)
+        }
+      }
     }
   }
 }
