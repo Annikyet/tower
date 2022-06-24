@@ -1,7 +1,40 @@
 <template>
-  <div class="about">
-    <h1>This is the event page</h1>
-    <h2>ID: {{eventId}}</h2>
+  <div class="event-page">
+    <!-- <h1>This is the event page</h1>
+    <h2>ID: {{ eventId }}</h2> -->
+    <div class="event-splash">
+      <img src="https://thiscatdoesnotexist.com" alt="" class="img-under">
+      <div class="over-img blur-panel d-flex">
+        <img src="https://thiscatdoesnotexist.com" alt="" class="event-splash-img">
+        <div class="d-flex flex-column justify-content-between">
+
+          <div class="d-flex flex-column">
+          <div class="d-flex justify-content-between w-100">
+
+              <div class="d-flex flex-column">
+                <h4 class="component-title">name</h4>
+              <h5 class="event-card-attr">(location) ID: {{ eventId }}</h5>
+
+            </div>
+            <div class="d-flex flex-column">
+              <h5 class="event-card-attr">startDate</h5>
+              <h5 class="event-card-attr">startDate</h5>
+
+            </div>
+          </div>
+          <p class="thin-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, quas. Velit facilis, voluptatem dolorum
+            maxime,
+            vero, excepturi laborum ut iste adipisci ex quidem praesentium?</p>
+            </div>
+          <div class="d-flex justify-content-between">
+            
+            <h5 class="text-right"><span class="bold-text">9</span><span class="thin-text"> tickets
+              left.</span></h5>
+            <button class="btn btn-primary">Reserve Ticket</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,17 +63,97 @@ export default {
 }
 </script>
 
-<!-- in events page -->
-  <!-- setup() {
-    const route = useRoute()
-    const filterTier = ref('')
-    watchEffect(async () => {
-      try {
-        if (route.name == 'ProjectDetails') {
-          // this is to re-run gets if you support a project
-          AppState.supportedProjects.length
-          await projectsService.getProject(route.params.id)
-          await tiersService.getTiersByProject(route.params.id)
-          await postsService.getPostsByProject(route.params.id)
-          await supportsService.getSupportsByProject(route.params.id)
-        } -->
+<style lang="scss" scoped>
+:root {
+  --event-splash-height: 50vh;
+}
+
+.event-page {
+  margin: var(--page-margins);
+
+}
+
+.event-splash {
+  width: 100%;
+  height: var(--event-splash-height);
+  background-color: var(--color-1);
+  color: var(--color-2);
+  position: relative;
+}
+
+.img-under {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.over-img {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  // margin: var(--page-margins);
+}
+
+.blur-panel {
+  color: var(--color-2);
+  text-shadow: 0px 0px 4px #000000d0;
+  font-size: 1.4em;
+  background-color: #ffffff40;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  align-self: flex-end;
+  width: 100%;
+  margin: 0px;
+  // padding-left: 0.4em;
+  padding-right: var(--page-margins);
+  padding-left: var(--page-margins);
+  padding-top: calc(2 * var(--page-margins));
+  padding-bottom: calc(2 * var(--page-margins));
+}
+
+.event-splash-container {
+  height: calc(var(--event-splash-height) - (4 * var(--page-margins)));
+  width: 100%;
+  background-color: darkblue;
+}
+
+.event-splash-img {
+  width: calc(var(--event-splash-height) - (4 * var(--page-margins)));
+  // margin-left: var(--page-margins);
+  margin-right: var(--page-margins);
+  // margin-top: calc(2 * var(--page-margins));
+  // margin-bottom: calc(2 * var(--page-margins));
+}
+
+.event-card-attr {
+  font-size: 0.8em;
+  color: var(--color-3);
+  // font-weight: lighter;
+}
+
+.component-title {
+  font-size: 28px;
+  font-weight: 500;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.text-right {
+  text-align: end;
+  font-weight: lighter;
+}
+
+.bold-text {
+  font-weight: bold;
+  text-shadow: 0px 0px 4px #000000d0;
+}
+
+.thin-text {
+  font-weight: lighter;
+  font-size: 20px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+  ;
+}
+</style>

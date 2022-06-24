@@ -30,12 +30,3 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
-// <!-- in routes -->
-//         <!-- {
-//     path: '/project/:id',
-//     name: 'ProjectDetails',
-//     component: loadPage('ProjectPage'),
-//     beforeEnter: authSettled
-//   }, -->
-//   <!-- passes page to loadPage -->

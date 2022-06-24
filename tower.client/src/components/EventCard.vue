@@ -29,49 +29,6 @@ export default {
 }
 </script>
 
-<!-- in return -->
-  <!-- props: { project: { type: Object, required: true } },
-  setup(props) {
-    const router = useRouter()
-    return {
-      selectProject() {
-        router.push({ name: 'ProjectDetails', params: { id: props.project.id } })
-      } -->
-
-
-<!-- in router -->
-
-<!-- function loadPage(page) {
-  return () => import(`./pages/${page}.vue`)
-} -->
-<!-- loads page passed -->
-<!-- but where is the id passed? -->
-<!-- how do i know WHICH event was selected -->
-
-<!-- in routes -->
-        <!-- {
-    path: '/project/:id',
-    name: 'ProjectDetails',
-    component: loadPage('ProjectPage'),
-    beforeEnter: authSettled
-  }, -->
-  <!-- passes page to loadPage -->
-
-<!-- in events page -->
-  <!-- setup() {
-    const route = useRoute()
-    const filterTier = ref('')
-    watchEffect(async () => {
-      try {
-        if (route.name == 'ProjectDetails') {
-          // this is to re-run gets if you support a project
-          AppState.supportedProjects.length
-          await projectsService.getProject(route.params.id)
-          await tiersService.getTiersByProject(route.params.id)
-          await postsService.getPostsByProject(route.params.id)
-          await supportsService.getSupportsByProject(route.params.id)
-        } -->
-
 
 <style lang="scss" scoped>
 .event-card {
