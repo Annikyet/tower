@@ -49,7 +49,8 @@
         <button class="btn btn-primary">Add Comment</button>
       </div>
     </form>
-    <p v-for="c in comments" :key="c._id">{{c}}</p>
+    <CommentCard v-for="c in comments" :key="c._id" :comment="c" />
+    <!-- :comment="c" is necessary to pass to props -->
   </div>
 </template>
 
@@ -62,6 +63,7 @@ import { eventsService } from "../services/EventsService"
 import { ticketsService } from "../services/TicketsService"
 import { commentsService } from "../services/CommentsService"
 import { AppState } from '../AppState'
+import CommentCard from '../components/CommentCard.vue'
 export default {
     name: "EventPage",
     setup() {
@@ -83,7 +85,7 @@ export default {
             event: computed(() => AppState.currentEvent),
             tickets: computed(() => AppState.currentEventTickets),
             myTicket: computed(() => AppState.currentEventTickets.find((t) => t.accountId == AppState.account._id)),
-            comments: computed(() => AppState.currentEventComments.find((c) => c.eventId == route.params.id)),
+            comments: computed(() => AppState.currentEventComments),
             commentBody: "",
             async createTicket() {
                 try {
@@ -115,7 +117,8 @@ export default {
                 }
             }
         };
-    }
+    },
+    components: { CommentCard }
 }
 </script>
 
@@ -242,7 +245,7 @@ export default {
   padding: var(--page-margins);
   display: flex;
   flex-direction: column;
-  margin-bottom: var(--page-margins);
+  margin-bottom: calc(2 * var(--page-margins));
 }
 
 .add-comment-bar textarea {
