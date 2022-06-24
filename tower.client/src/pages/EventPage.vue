@@ -27,10 +27,11 @@
             </div>
           <div class="d-flex justify-content-between">
             
-            <h5 class="text-right"><span class="bold-text">{{event.capacity}}</span><span class="thin-text"> tickets
+            <h5 class="text-right"><span class="bold-text" :style="event.capacity <= 0 ? 'color: #801010;' : ''">{{event.capacity}}</span><span class="thin-text"> tickets
               left.</span></h5>
-            <button v-show="!myTicket" class="btn btn-primary" @click="createTicket">Reserve Ticket</button>
+            <button v-show="!myTicket && event.capacity > 0" class="btn btn-primary" @click="createTicket">Reserve Ticket</button>
             <button v-show="myTicket" class="btn btn-secondary" @click="removeTicket">Relinquish Ticket</button>
+            <button v-show="!myTicket && event.capacity <= 0" class="btn btn-danger">Sold Out</button>
           </div>
         </div>
       </div>
@@ -42,12 +43,13 @@
       </div>
     </div>
     <h5 class="thin-text">Chatter:</h5>
-    <form class="add-comment-bar">
-      <textarea name="addComment" id="addComment" class="bg-dark text-light"></textarea>
+    <form class="add-comment-bar" @submit.prevent="createComment">
+      <textarea v-model="commentBody" name="addComment" id="addComment" class="bg-dark text-light"></textarea>
       <div class="d-flex justify-content-end">
         <button class="btn btn-primary">Add Comment</button>
       </div>
     </form>
+    <p v-for="c in comments" :key="c._id">{{c}}</p>
   </div>
 </template>
 
@@ -58,42 +60,62 @@ import { watchEffect } from 'vue'
 import Pop from '../utils/Pop'
 import { eventsService } from "../services/EventsService"
 import { ticketsService } from "../services/TicketsService"
+import { commentsService } from "../services/CommentsService"
 import { AppState } from '../AppState'
 export default {
-  name: 'EventPage',
-  setup() {
-    const route = useRoute()
-    watchEffect(async () => {
-      try {
-        if (route.name == 'Event') {
-          // get event details
-          eventsService.getById(route.params.id)
-          ticketsService.getByEventId(route.params.id)
-        }
-      } catch(error) {
-        Pop.error(error)
-      }
-    })
-    return {
-      event: computed(() => AppState.currentEvent),
-      tickets: computed(() => AppState.currentEventTickets),
-      myTicket: computed(() => AppState.currentEventTickets.find((t) => t.accountId == AppState.account._id)),
-      async createTicket() {
-        try {
-          ticketsService.createTicket(route.params.id)
-        } catch (error) {
-          Pop.error(error)
-        }
-      },
-      async removeTicket() {
-        try {
-          ticketsService.removeTicket(this.myTicket)
-        } catch (error) {
-          Pop.error(error)
-        }
-      }
+    name: "EventPage",
+    setup() {
+        const route = useRoute();
+        watchEffect(async () => {
+            try {
+                if (route.name == "Event") {
+                    // get event details
+                    await eventsService.getById(route.params.id);
+                    await ticketsService.getByEventId(route.params.id);
+                    await commentsService.getEventComments(route.params.id);
+                }
+            }
+            catch (error) {
+                Pop.error(error);
+            }
+        });
+        return {
+            event: computed(() => AppState.currentEvent),
+            tickets: computed(() => AppState.currentEventTickets),
+            myTicket: computed(() => AppState.currentEventTickets.find((t) => t.accountId == AppState.account._id)),
+            comments: computed(() => AppState.currentEventComments.find((c) => c.eventId == route.params.id)),
+            commentBody: "",
+            async createTicket() {
+                try {
+                    await ticketsService.createTicket(route.params.id);
+                }
+                catch (error) {
+                    Pop.error(error);
+                }
+            },
+            async removeTicket() {
+                try {
+                    await ticketsService.removeTicket(this.myTicket);
+                }
+                catch (error) {
+                    Pop.error(error);
+                }
+            },
+            async createComment() {
+                try {
+                    const myComment = {
+                        // creatorId: AppState.account._id,
+                        eventId: route.params.id,
+                        body: this.commentBody
+                    };
+                    await commentsService.createComment(myComment);
+                }
+                catch (error) {
+                    Pop.error(error);
+                }
+            }
+        };
     }
-  }
 }
 </script>
 
@@ -220,6 +242,7 @@ export default {
   padding: var(--page-margins);
   display: flex;
   flex-direction: column;
+  margin-bottom: var(--page-margins);
 }
 
 .add-comment-bar textarea {
@@ -230,7 +253,7 @@ export default {
   margin-bottom: var(--page-margins);
 }
 
-.add-comment-bar button {
+.btn {
   border-radius: 0px;
 }
 </style>
