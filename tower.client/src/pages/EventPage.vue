@@ -41,6 +41,13 @@
         <img v-for="t in tickets" :key="t._id" :src="t.account.picture" :alt="t.account.name" :title="t.account.name" class="profile-bubble">
       </div>
     </div>
+    <h5 class="thin-text">Chatter:</h5>
+    <form class="add-comment-bar">
+      <textarea name="addComment" id="addComment" class="bg-dark text-light"></textarea>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary">Add Comment</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -194,6 +201,7 @@ export default {
   background-color: var(--color-1);
   padding-left: 8px;
   padding-top: 8px;
+  margin-bottom: var(--page-margins);
 }
 
 .profile-bubble {
@@ -203,5 +211,26 @@ export default {
   border-radius: 50%;
   margin-right: 8px;
   margin-bottom: 8px;
+}
+
+.add-comment-bar {
+  background-color: var(--color-1);
+  width: 100%;
+  height: 30vh;
+  padding: var(--page-margins);
+  display: flex;
+  flex-direction: column;
+}
+
+.add-comment-bar textarea {
+  border: 0px;
+  resize: none;
+  width: 100%;
+  height: 100%;
+  margin-bottom: var(--page-margins);
+}
+
+.add-comment-bar button {
+  border-radius: 0px;
 }
 </style>
