@@ -4,6 +4,14 @@
 @import "./utilities.scss";
 @import "./loaders.scss";
 
+:root {
+  --page-margins: 2vw;
+  // --text-shadow: 0px 0px 4px #000000d0;
+  --color-1: #301020;
+  --color-2: #ffffffd0;
+  --color-3: #ffffffa0;
+}
+
 #app {
   display: flex;
   flex-direction: column;
