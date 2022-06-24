@@ -17,6 +17,7 @@
 
             </div>
             <div class="d-flex flex-column">
+              <!-- need a method to prettify this -->
               <h5 class="event-card-attr">{{event.startDate}}</h5>
               <h5 class="event-card-attr">{{event.startDate}}</h5>
 
@@ -33,6 +34,12 @@
         </div>
       </div>
     </div>
+    <div class="attendance-list">
+      <h5 class="thin-text">Already attending:</h5>
+      <div class="attendance-bar">
+        <img v-for="t in tickets" :key="t._id" :src="t.account.picture" :alt="t.account.name" :title="t.account.name" class="profile-bubble">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,6 +49,7 @@ import { computed } from 'vue'
 import { watchEffect } from 'vue'
 import Pop from '../utils/Pop'
 import { eventsService } from "../services/EventsService"
+import { ticketsService } from "../services/TicketsService"
 import { AppState } from '../AppState'
 export default {
   name: 'EventPage',
@@ -52,13 +60,15 @@ export default {
         if (route.name == 'Event') {
           // get event details
           eventsService.getById(route.params.id)
+          ticketsService.getByEventId(route.params.id)
         }
       } catch(error) {
         Pop.error(error)
       }
     })
     return {
-      event: computed(() => AppState.currentEvent)
+      event: computed(() => AppState.currentEvent),
+      tickets: computed(() => AppState.currentEventTickets)
     }
   }
 }
@@ -80,6 +90,7 @@ export default {
   background-color: var(--color-1);
   color: var(--color-2);
   position: relative;
+  margin-bottom: var(--page-margins);
 }
 
 .img-under {
@@ -159,5 +170,22 @@ export default {
 
 .small-text {
   font-size: 16px;
+}
+
+.attendance-bar {
+  min-height: 64px;
+  width: 100%;
+  background-color: var(--color-1);
+  padding-left: 8px;
+  padding-top: 8px;
+}
+
+.profile-bubble {
+  height: 48px;
+  width: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 8px;
+  margin-bottom: 8px;
 }
 </style>
