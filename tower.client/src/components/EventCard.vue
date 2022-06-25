@@ -8,7 +8,7 @@
         <!-- style if the event is sold out -->
         <!-- style is cancelled -->
         <h5 class="event-card-attr">{{event.location}}</h5>
-        <h5 class="event-card-attr">{{event.startDate}}</h5>
+        <h5 class="event-card-attr">{{prettyTime.dateString}} at {{prettyTime.timeString(24)}}</h5>
         <h5 v-if="!event.isCanceled && event.capacity > 0" class="text-right">
           <span class="bold-text">{{event.capacity}}</span><span class="thin-text"> tickets left.</span>
         </h5>
@@ -24,11 +24,14 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { PrettyDate } from '../utils/PrettyDate'
 export default {
   props: {event: {type: Object, required: true}},
   setup(props){
     const router = useRouter()
     return {
+      prettyTime: computed(() => new PrettyDate(props.event.startDate)),
       gotoEventPage() {
         router.push({name: 'Event', params: {id: props.event._id}})
       }
