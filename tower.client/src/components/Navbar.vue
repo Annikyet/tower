@@ -36,6 +36,9 @@
   </nav>
 </template>
 
+<!-- Events can be created from navbar from any page, as long as logged in -->
+<!-- Use a modal for creation of event, use Vue gregslist as reference -->
+
 <script>
 export default {
   setup() {

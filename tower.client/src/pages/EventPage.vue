@@ -29,6 +29,8 @@
             
             <h5 class="text-right"><span class="bold-text" :style="event.capacity <= 0 ? 'color: #801010;' : ''">{{event.capacity}}</span><span class="thin-text"> tickets
               left.</span></h5>
+              <!-- disable for zero tickets and no logged in -->
+              <!-- disable for isCancelled -->
             <button v-show="!myTicket && event.capacity > 0" class="btn btn-primary" @click="createTicket">Reserve Ticket</button>
             <button v-show="myTicket" class="btn btn-secondary" @click="removeTicket">Relinquish Ticket</button>
             <button v-show="!myTicket && event.capacity <= 0" class="btn btn-danger">Sold Out</button>
@@ -53,6 +55,8 @@
     <!-- :comment="c" is necessary to pass to props -->
   </div>
 </template>
+
+<!-- Owners can delete Event -->
 
 <script>
 import { useRoute } from 'vue-router'
@@ -87,6 +91,7 @@ export default {
             myTicket: computed(() => AppState.currentEventTickets.find((t) => t.accountId == AppState.account._id)),
             comments: computed(() => AppState.currentEventComments),
             commentBody: "",
+            // immediately disable button while waitinf for server
             async createTicket() {
                 try {
                     await ticketsService.createTicket(route.params.id);
@@ -103,6 +108,11 @@ export default {
                     Pop.error(error);
                 }
             },
+            // Put this inside of a computed instead for reactivity
+            // get isEnabled() {
+            //   return 'meow'
+            // }
+
             async createComment() {
                 try {
                     const myComment = {

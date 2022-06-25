@@ -54,7 +54,7 @@ class TicketsService {
     let original = await dbContext.Ticket.findById(ticketId)
     if (original.accountId.toString() == accountId) {
       const ticket = await dbContext.Ticket.findByIdAndRemove(ticketId)
-      towerEventsService.incrementCapacityById(original.eventId)
+      await towerEventsService.incrementCapacityById(original.eventId)
       return ticket
     } else {
       throw new BadRequest('Das Nacho Ticket!')

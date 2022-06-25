@@ -21,6 +21,8 @@
   </div>
 </template>
 
+<!-- Events can be sorted by type -->
+
 <script>
 import { computed, onMounted } from '@vue/runtime-core'
 import { AppState } from '../AppState'

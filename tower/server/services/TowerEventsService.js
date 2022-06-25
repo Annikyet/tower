@@ -37,6 +37,10 @@ class TowerEventsService {
   }
 
   async create(body) {
+    // TODO don't allow past startDates
+    if (new Date(body.startDate) < new Date()) {
+      throw new BadRequest("Sorry, the TARDIS is in the shop.")
+    }
     let towerEvent = await dbContext.TowerEvents.create(body)
     // populate creator here
     return towerEvent

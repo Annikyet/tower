@@ -6,6 +6,10 @@
   </div>
 </template>
 
+<!-- Users can delete their ticket -->
+<!-- Also display the tickets -->
+<!-- Also display your events -->
+
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'

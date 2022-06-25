@@ -1,16 +1,25 @@
 <template>
   <div class="event-card" @click="gotoEventPage">
-    <img :src="event.coverImg" alt="" class="img-under">
+    <img :src="event.coverImg" alt="" class="img-under"
+      :style="!event.isCanceled && event.capacity > 0 ? '' : '-webkit-filter: grayscale(1); -moz-filter:    grayscale(1);'">
     <div class="over-img">
       <div class="blur-panel">
         <h4 class="component-title">{{event.name}}</h4>
+        <!-- style if the event is sold out -->
+        <!-- style is cancelled -->
         <h5 class="event-card-attr">{{event.location}}</h5>
         <h5 class="event-card-attr">{{event.startDate}}</h5>
-        <h5 class="text-right"><span class="bold-text">{{event.capacity}}</span><span class="thin-text"> tickets left.</span></h5>
+        <h5 v-if="!event.isCanceled && event.capacity > 0" class="text-right">
+          <span class="bold-text">{{event.capacity}}</span><span class="thin-text"> tickets left.</span>
+        </h5>
+        <h5 v-if="event.isCanceled" class="text-right bold-text red-text">Cancelled.</h5>
+        <h5 v-if="!event.isCanceled && event.capacity <= 0" class="text-right bold-text red-text">Sold out.</h5>
       </div>
     </div>
   </div>
 </template>
+
+    <!-- -webkit-filter: grayscale(0%); -moz-filter:    grayscale(0%); -->
 
 
 <script>
@@ -96,7 +105,11 @@ export default {
 .thin-text {
   font-weight: lighter;
   font-size: 20px;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
-;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.red-text {
+  color: #801010;
+  text-shadow: 0px 0px 4px #ffffffd0;
 }
 </style>

@@ -8,7 +8,7 @@
       </div>
     <p>{{comment.body}}</p>
     </div>
-
+<!-- add a way to delete your own comments -->
   </div>
 </template>
 
