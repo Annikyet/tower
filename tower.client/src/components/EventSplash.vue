@@ -37,6 +37,8 @@
           <!-- disable when awaiting server response -->
           <!-- Maybe the button should be it's own component, so much if logic... -->
           <!-- Or functionalize these if statements -->
+          <!-- Fix this styling -->
+          <button v-if="event.creatorId == myAccountId && !event.isCanceled" class="btn btn-danger" @click="cancelEvent">Cancel Event</button>
           <button v-show="!event.isCanceled && !myTicket && event.capacity > 0" class="btn btn-primary"
             @click="createTicket">
             Reserve Ticket
@@ -73,8 +75,10 @@ export default {
     return {
       event: computed(() => AppState.currentEvent),
       myTicket: computed(() => AppState.currentEventTickets.find((t) => t.accountId == AppState.account._id)),
+      myAccountId: computed(() => AppState.account._id),
       prettyDate: computed(() => new PrettyDate(AppState.currentEvent.startDate)),
       isTicketLoading: false,
+      alreadyCancelled: false,
       // immediately disable button while w,aitinf for server
       async createTicket() {
         if (!this.isTicketLoading) {
@@ -100,6 +104,16 @@ export default {
           }
         }
       },
+      async cancelEvent() {
+        if (!this.alreadyCancelled) {
+          this.alreadyCancelled = true
+          try {
+            await eventsService.cancelEvent(this.event._id)
+          } catch (error) {
+            Pop.error('cancelEvent() ' + error)
+          }
+        }
+      }
     }
   }
 }

@@ -1,15 +1,25 @@
 <template>
   <div class="filter-bar">
-
-    meow meow, i'm a filter bar
+    <button class="btn btn-secondary" @click="setFilter('')">All</button>
+    <button class="btn btn-secondary" @click="setFilter('concert')">Concerts</button>
+    <button class="btn btn-secondary" @click="setFilter('convention')">Conventions</button>
+    <button class="btn btn-secondary" @click="setFilter('sport')">Sports</button>
+    <button class="btn btn-secondary" @click="setFilter('digital')">Digital</button>
   </div>
 </template>
 
 
 <script>
+import { eventsService } from '../services/EventsService'
+
 export default {
+  // emits: [eventsFilter],
   setup(){
-    return {}
+    return {
+      setFilter(filter) {
+        eventsService.filterEvents(filter)
+      }
+    }
   }
 }
 </script>
